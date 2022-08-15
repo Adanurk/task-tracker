@@ -1,9 +1,15 @@
 import PropTypes from "prop-types";
+import Button from "./Button";
 
 export default function Header({title = "Task Tracker"}) {
+    const handleClick = () => {
+          
+    }
+
   return (
-    <div>
+    <div className="header">
         <h1>{title}</h1>
+        <Button handleClick={handleClick} text ="Show Add Task Bar" />
     </div>
   )
 }
