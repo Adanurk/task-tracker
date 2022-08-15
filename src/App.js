@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="container">
       <Header title="TASK TRACKER" showAddTask={showAddTask} toggleShow={toggleShow}/>
-      <AddTask addTask={addTask}/>
+      {showAddTask && <AddTask addTask={addTask}/>}
       {
         tasks.length > 0 ? <Tasks tasks={tasks} deleteTask={deleteTask} toggleDone = {toggleDone}/> : <h2 style={{textAlign:"center", fontSize:"16px"}}>NO TASK TO SHOW</h2>
       }
