@@ -26,6 +26,8 @@ function App() {
     }
   ]);
 
+  const [showAddTask, setShowAddTask] = useState(false);
+
   //DELETE TASK
   const deleteTask = (deletedTaskId) => {
     setTasks(tasks.filter((task) => task.id !== deletedTaskId));
@@ -39,12 +41,25 @@ function App() {
     setTasks([...tasks, addNewTask]);
   }
 
+  //TOGGLE DONE
+  const toggleDone = (toggleDoneId) => {
+    setTasks(tasks.map((task) => task.id === toggleDoneId ? {...task, isDone: !task.isDone} : task))
+  }
+
+  //TOGGLE SHOW
+
+  const toggleShow = () => {
+    setShowAddTask(!showAddTask);
+  }
+
 
   return (
-    <div className="App">
-      <Header title="TASK TRACKER"/>
+    <div className="container">
+      <Header title="TASK TRACKER" showAddTask={showAddTask} toggleShow={toggleShow}/>
       <AddTask addTask={addTask}/>
-      <Tasks tasks={tasks} deleteTask={deleteTask}/>
+      {
+        tasks.length > 0 ? <Tasks tasks={tasks} deleteTask={deleteTask} toggleDone = {toggleDone}/> : <h2 style={{textAlign:"center", fontSize:"16px"}}>NO TASK TO SHOW</h2>
+      }
     </div>
   );
 }

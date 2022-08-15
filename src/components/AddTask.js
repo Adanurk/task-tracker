@@ -6,10 +6,12 @@ const AddTask = ({addTask}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        addTask({text, day, isDone:false})
+        addTask({text, day, isDone:false});
+        setText("");
+        setDay("");
 
 
-    }
+    };
     
 
 
