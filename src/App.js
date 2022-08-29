@@ -1,32 +1,70 @@
 import "./App.css";
 import Header from "./components/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
+import axios from "axios";
 
 function App() {
-  const [tasks, setTasks] = useState([
-    {
-      id:1,
-      text: "Study React Notes",
-      day: "August 16th at 3:30 pm",
-      isDone: false,
-    },
-    {
-      id:2,
-      text: "Cook",
-      day: "August 16th at 2:00 pm",
-      isDone: true,
-    },
-    {
-      id:3,
-      text: "Feed the Cat",
-      day: "August 15th at 5:00 pm",
-      isDone: false,
-    }
-  ]);
-
+  const [tasks, setTasks] = useState([]);
   const [showAddTask, setShowAddTask] = useState(false);
+
+  const baseUrl = "http://localhost:5000/tasks";
+  //!CRUD => create read update delete
+
+//fetch tasks
+
+  // useEffect(() => {
+  //   const fetchTasks = async() => {
+  //     const res = await fetch(baseUrl);
+  //     const data = await res.json();
+  //     console.log(data);
+  //   };
+  //   fetchTasks();
+  // }, [])
+
+  // fetch tasks with axios
+
+  const fetchTasks = async() => {
+    const {data} = await axios.get(baseUrl);
+    setTasks(data);
+  }
+
+  useEffect(() => {
+    fetchTasks()
+  }, []);
+
+  //ADD TASK
+  //   const addTask = (newTask) => {
+  //   const  id=Math.floor(Math.random()*100000 +1);
+  //   const addNewTask = {id, ...newTask};
+  //   setTasks([...tasks, addNewTask]);
+  // }
+
+  //Add task fetch
+
+  // const addTask = async(newTask) => {
+  //   const res = await fetch(baseUrl, {
+  //     method:"POST",
+  //     headers: {
+  //       "Content-Type" : "application/json"
+  //     },
+  //     body: JSON.stringify(newTask)
+  //   })
+  //   await res.json()
+  //   fetchTasks();
+  // }
+
+  //add task axios
+  //! axios ile yapinca convert islemlerini vs o otomatik yapiyor
+
+  const addTask = async(newTask) => {
+    const response = await axios.post(baseUrl, newTask);
+    fetchTasks();
+  }
+  
+  
+
 
   //DELETE TASK
   const deleteTask = (deletedTaskId) => {
@@ -34,12 +72,7 @@ function App() {
 
   }
 
-  //ADD TASK
-  const addTask = (newTask) => {
-    const  id=Math.floor(Math.random()*100000 +1);
-    const addNewTask = {id, ...newTask};
-    setTasks([...tasks, addNewTask]);
-  }
+
 
   //TOGGLE DONE
   const toggleDone = (toggleDoneId) => {
