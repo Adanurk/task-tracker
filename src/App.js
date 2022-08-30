@@ -67,17 +67,36 @@ function App() {
 
 
   //DELETE TASK
-  const deleteTask = (deletedTaskId) => {
-    setTasks(tasks.filter((task) => task.id !== deletedTaskId));
+  // const deleteTask = (deletedTaskId) => {
+  //   setTasks(tasks.filter((task) => task.id !== deletedTaskId));
 
-  }
+  // }
+
+  //axios
+
+  const deleteTask = async(deletedTaskId) => {
+    await axios.delete(`${baseUrl}/${deletedTaskId}`);
+    fetchTasks();
+  };
 
 
 
   //TOGGLE DONE
-  const toggleDone = (toggleDoneId) => {
-    setTasks(tasks.map((task) => task.id === toggleDoneId ? {...task, isDone: !task.isDone} : task))
+  // const toggleDone = (toggleDoneId) => {
+  //   setTasks(tasks.map((task) => task.id === toggleDoneId ? {...task, isDone: !task.isDone} : task))
+  // }
+
+  // with backend
+
+  const toggleDone = async(toggleDoneId) => {
+    const {data} = await axios.get(`${baseUrl}/${toggleDoneId}`);
+    const updatedTask = {...data, isDone:!data.isDone};
+    await axios.put(`${baseUrl}/${toggleDoneId}`, updatedTask);
+// await axios.patch(`${baseUrl}/${toggleDoneId}`, {isDone:!data.isDone})
+    fetchTasks()
   }
+
+  //! patch sadece belli bir kismi degistirir, ilgili datayi; put bütün bilgileri ceker.
 
   //TOGGLE SHOW
 
